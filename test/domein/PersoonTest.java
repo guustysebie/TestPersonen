@@ -464,9 +464,9 @@ public class PersoonTest {
     @Test
     public void setGemeente_is_45_assertequelsistrue() {
         Persoon persoon = new Persoon();
-        String gemeente = "LLUwejNrazvVrbRPyupNbsgyUPPCZVZPoYRKrGCaNasHf";
+        String gemeente = "uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu";
         persoon.setGemeente(gemeente);
-        assertEquals(persoon.getGemeente(), gemeente);
+        assertEquals(gemeente, persoon.getGemeente());
     }
 
     @Test(expected = IllegalArgumentException.class)
