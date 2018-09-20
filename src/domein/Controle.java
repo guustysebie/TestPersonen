@@ -6,28 +6,46 @@ import java.util.regex.Pattern;
 
 public class Controle {
 
-    private static final Pattern patroonGeenCijfers = Pattern.compile("[0-9]");
-    private static final Pattern patroonGeenLetters = Pattern.compile("[a-zA-Z]");
+
+    private static final Pattern patroonGeenLetters = Pattern.compile("^[a-zA-Z]+");
     private static final Pattern patroonEmail = Pattern.compile("\\\\b[A-Z0-9._%-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,4}\\\\b");
+    
+    
+    private static final Pattern patroonBevatEnkelCijfers = Pattern.compile("[0-9]+");
+    private static final Pattern patroonEnkelLetters= Pattern.compile("[a-zA-Z]+");
+    private static final Pattern patroonMetSpecialeChars = Pattern.compile("[a-zA-Z0-9]+");
+    private static final Pattern patroonLettersEnSpecialeSymbolen = Pattern.compile("[a-zA-Z-'ïséèàùü]+");
     //private static final Pattern patroonEmail = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}$");
 
     protected static void controleerCombinatieBeginEnEindatum(Date beginDatum, Date eindDatum) {
         //Moet kijken of begindatum niet groter is dan eindDatum -> gooit exception dan 
-
+    if(beginDatum.compareTo(eindDatum)>0)
+    {
+        throw new IllegalArgumentException("begindatum komt na einddatum");
     }
-    //returnt true als alleen letters of cijfers zijn
-    private static final Pattern patroonMetSpecialeChars = Pattern.compile("[a-zA-Z0-9]");
-
-    private static boolean bevatTekstLetters(String tekst) {
+    }
+    
+ 
+    private static boolean bevatEnkelLetters(String tekst)
+    {
+        //controleert of enkel letters bevat
+        return patroonEnkelLetters.matcher(tekst).matches();
+    }
+    private static boolean bevatEnkelCijfers(String tekst)
+    {
+        //controleert of enkel cijfers bevat
+        return patroonBevatEnkelCijfers.matcher(tekst).matches();
+    }
+    private static boolean controleNaam(String tekst) {
         //controleert of een gsm geen letters bevat
-        return patroonGeenLetters.matcher(tekst).matches();
+        return patroonLettersEnSpecialeSymbolen.matcher(tekst).matches();
     }
 
     private static boolean bevatTekstCijfers(String tekst) {
         //controleert of de naam cijfers bevat en geeft true terug als dat zo is
-        return patroonGeenCijfers.matcher(tekst).matches();
+        return patroonBevatEnkelCijfers.matcher(tekst).matches();
     }
-
+   
     private static boolean controleertJuisteEmailRegex(String email) {
         //controleert of de email correct is
         return patroonEmail.matcher(email).matches();
@@ -52,6 +70,10 @@ public class Controle {
         if (bevatTekstCijfers(naam)) {
             throw new IllegalArgumentException("naam mag geen cijfers bevatten");
         }
+        if(controleNaam(naam) == false )
+        {
+            throw new IllegalArgumentException("naam mag enkel letters bevatten");
+        }
     }
 
     protected static void controleerGSM(String gsm) {
@@ -69,13 +91,11 @@ public class Controle {
         if (gsm.length() < 9) {
             throw new IllegalArgumentException("de gsm mag niet korter zijn dan 9 cijfers");
         }
-        if (bevatTekstLetters(gsm)) {
+        if (bevatEnkelCijfers(gsm)==false) {
             throw new IllegalArgumentException("gsm mag geen letters bevatten");
         }
 
-        if (bevatTekstLetters(gsm)) {
-            throw new IllegalArgumentException("gsm mag geen speciale tekens bevatten");
-        }
+        
         String eersteVierCijfersGsm = gsm.substring(0, 4);
         System.out.println(eersteVierCijfersGsm);
 
@@ -117,8 +137,9 @@ public class Controle {
         if (bevatTekstCijfers(straatNaam)) {
             throw new IllegalArgumentException("straatnaam mag geen cijfers bevatten");
         }
-        if (controleerPatroonMetSpecialeTekens(straatNaam)) {
-            throw new IllegalArgumentException("straatnaam mag geen speciale tekens bevatten");
+        if(controleNaam(straatNaam) == false)
+        {
+            throw new IllegalArgumentException("straatnaam moet voldoen aan de voorwaarden");
         }
     }
 
@@ -132,7 +153,7 @@ public class Controle {
         if (huisnummer.length() > 10) {
             throw new IllegalArgumentException("huisnummer mag niet langer zijn dan 10 cijfers   ");
         }
-        if (controleerPatroonMetSpecialeTekens(huisnummer) || huisnummer.matches("[^a-z A-Z0-9]")) {
+        if(Pattern.matches("[0-9]+", huisnummer) == false ){
             throw new IllegalArgumentException("huisnummer mag geen speciale tekens bevatten");
         }
     }
@@ -153,8 +174,12 @@ public class Controle {
         if (bevatTekstCijfers(gemeente)) {
             throw new IllegalArgumentException("gemeente mag geen cijfers bevatten");
         }
-        if (controleerPatroonMetSpecialeTekens(gemeente)) {
+        if (bevatEnkelLetters(gemeente)==false && gemeente.matches("^[']")) {
             throw new IllegalArgumentException("gemeente mag geen speciale tekens bevatten");
+        }
+        if(Pattern.matches("[a-zA-Z-'éàùïî]+", gemeente) == false)
+        {
+            throw new IllegalArgumentException("gemeente mag enkel letters bevatten");
         }
     }
 
@@ -165,16 +190,20 @@ public class Controle {
         if (postcode.length() == 0) {
             throw new IllegalArgumentException("postcode mag niet leeg zijn");
         }
-        if (bevatTekstLetters(postcode)) {
+        if (bevatEnkelCijfers(postcode)==false) {
             throw new IllegalArgumentException("postcode mag geen letters bevatten");
         }
+        
         if (postcode.length() != 4) {
             throw new IllegalArgumentException("postcode moet 4 cijfers bevatten");
         }
     }
 
     protected static void controleerId(int id) {
-
+        if(id<0)
+        {
+            throw new IllegalArgumentException("id is negatief");
+        }
     }
 
     protected static void controleerBeginDatum(Date beginDatum) {

@@ -169,7 +169,7 @@ public class LocatieTest {
     @Test(expected = IllegalArgumentException.class)
     public void setGemeente_is_korter_dan_2_gooit_exception() {
         Locatie locatie = new Locatie();
-        String gemeente = "LLUwejNrazvVrbRPyupNbsgyUPPCZVZPoYRKrGCaNasHf";
+        String gemeente = "a";
         locatie.setGemeent(gemeente);
     }
 
