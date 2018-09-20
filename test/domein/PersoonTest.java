@@ -253,7 +253,7 @@ public class PersoonTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void setEmail_is_langer_dan4chars_gooitException() {
+    public void setEmail_is_langer_dan45chars_gooitException() {
         Persoon persoon = new Persoon();
         String email = "qsdsdfaijerfmkjaemlfkjazemlkfjazmlefkjqlskfjlmakzejffaze";
         persoon.setEmail(email);
@@ -472,7 +472,7 @@ public class PersoonTest {
     @Test(expected = IllegalArgumentException.class)
     public void setGemeente_is_korter_dan_2_gooit_exception() {
         Persoon persoon = new Persoon();
-        String gemeente = "LLUwejNrazvVrbRPyupNbsgyUPPCZVZPoYRKrGCaNasHf";
+        String gemeente = "L";
         persoon.setGemeente(gemeente);
     }
 
