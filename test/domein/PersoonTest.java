@@ -110,7 +110,7 @@ public class PersoonTest {
         String naam = null;
         persoon.setAchterNaam(naam);
     }
-
+/*ik hou van gedester en spitbull*/
     @Test(expected = IllegalArgumentException.class)
     public void setAchterNaamMetLengteNaam_46_gooitException() {
         Persoon persoon = new Persoon();
