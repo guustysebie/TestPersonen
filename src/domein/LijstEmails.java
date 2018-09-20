@@ -11,7 +11,7 @@ public class LijstEmails {
         lijstGoedeEmails.add("foo@baz.com");
         lijstGoedeEmails.add("foo.bar@baz.com");
         lijstGoedeEmails.add("foo@bar.baz.com");
-        lijstGoedeEmails.add(" foo+bar@baz.com");
+        lijstGoedeEmails.add("foo+bar@baz.com");
         lijstGoedeEmails.add("foo@123.456.789.123");
         lijstGoedeEmails.add("foo@[123.456.789.123]");
         lijstGoedeEmails.add("123456789@baz.com");
