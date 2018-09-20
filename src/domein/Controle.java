@@ -105,10 +105,29 @@ public class Controle {
     }
 
     protected static void controleerEmail(String email) {
+       
         if (email == null) {
             throw new IllegalArgumentException("email mag niet null zijn");
         }
-
+        int counter =0;
+        for( int i=0; i<email.length(); i++ ) {
+         if(email.charAt(i) == '@' ) {
+            counter++;
+    }        
+        }
+         int indexeerstecharambersant = email.indexOf('@');
+        if(indexeerstecharambersant==0)
+        {
+           throw new IllegalArgumentException("email moet iets voor @ hebben");
+        }
+        if(counter>1)
+        {
+            throw new IllegalArgumentException("email mag maar 1 @ bevatten");
+        }
+        if(email.length()<4)
+        {
+            throw new IllegalArgumentException("email moet minstens 3 karakters bevatten");
+        }
         if (email.contains(" ")) {
             throw new IllegalArgumentException("email mag geen spaties bevatten");
         }
@@ -123,7 +142,7 @@ public class Controle {
             throw new IllegalArgumentException("email moet aan de juiste vormgeving voldoen");
         }
     }
-
+    
     protected static void controleerStraatNaam(String straatNaam) {
         if (straatNaam == null) {
             throw new IllegalArgumentException("straatnaam mag niet null zijn");
